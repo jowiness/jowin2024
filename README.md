@@ -1,2 +1,2 @@
 # jowin2024
-flask项目
+轻量级flask项目
