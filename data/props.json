@@ -1,0 +1,5 @@
+[
+  {"game_id":"5d9d47004d2f711eb4001502","ability":"power_level","name":"升级火力","icon":"tool01.png","price":100,"desc":"飞机大战武器火力，随着等级提高，火力将会变得更加强大","max":10},
+  {"game_id":"5d9d47004d2f711eb4001502","ability":"shoot_level","name":"升级射速","icon":"tool02.png","price":150,"desc":"飞机大战射速升级，随着等级提高，发射子弹的频率会大幅提高","max":6},
+  {"game_id":"5d9d47004d2f711eb4001502","ability":"life_level","name":"升级生命","icon":"tool05.png","price":300,"desc":"增加英雄机生命值","max":9}
+]

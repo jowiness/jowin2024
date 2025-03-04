@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>review</title>
+    <link rel="stylesheet" href="../static/css/76/review.css">
+     <script type="text/javascript" src="../static/js/jquery/jquery.min.js"></script>
+    <script>
+        function check(){
+            inputs = $("[type='file']");
+            if(inputs.length == 0){
+                alert('请添加 type是file 的input元素');
+                return false;
+            }
+            if(inputs[0].name != 'filelist'){
+                alert('请添加type是file的input元素的name属性值设置为 filelist');
+                return false;
+            }
+            if (inputs[0].value == null || inputs[0].value == ''){
+                alert('请选择文件后再提交！');
+                return false;
+            }
+        }
+    </script>
+</head>
+<body>
+<form onsubmit="return check()" action='/review' method='post' enctype='multipart/form-data'>
+    <input type='file' name='filelist'>
+    <input type='file' name='filelist'>
+    <input type='submit'>
+    <div class='data'>{{ data|safe }}</div>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" type="text/css" href="/static/css/index.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/pub.css">
+{% endblock %}
+
+{% block header %}
+    <header class="am-topbar kid-topbar">
+        <img class="kid-logo" src="/static/images/logo.png">
+        <div class="kid-bar">
+            <ul class="kid-checklist">
+                <li class="kid-list kid-list-blog"></li>
+                <li class='kid-list kid-list-quiz'></li>
+                <li class="kid-list kid-list-game"></li>
+            </ul>
+            <div class="kid-search">
+                <input type="text" name="kw" class='kid-search-text'>
+                <input type="button" name="se" class="kid-search-btn">
+            </div>
+        </div>
+    </header>
+{% endblock %}
+
+{% block main_content %}
+    <div class="kid-container" style="display:none;">
+        <div class="kid-main">
+            <div class="kid-title">
+                <div class="kid-userphoto" style="background-image: url(/static/images/{{user['head']}});"></div>
+                <div class="kid-username">{{user['username']}}</div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="kid-pub-content">
+                <form class="kid-comment-form" enctype="multipart/form-data" method="post" action="/microblog/create">
+                <div class="kid-pub-text">
+                    <textarea placeholder="说点儿什么吧" name="text"></textarea>
+                </div>
+                <div class="kid-pub-imgs">
+                    <p>图片</p>
+                    <div class="kid-pub-imgslist">
+                        <div class="pub-add"><input type="file" onchange="preView(this,$('.pub-add'))"></div>
+                    </div>
+                </div>
+                <div class="kid-pub-sub">
+                    <input class='blog-submit' type="submit" class="blog-submit" value="发布">
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript" src="/static/js/pub.js"></script>
+{% endblock %}
+

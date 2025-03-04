@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" type="text/css" href="/static/css/game.css">
+{% endblock %}
+
+{% block main_content %}
+    <div class="game-back"></div>
+    <div class="game-container" style="display:none;">
+        <header class="game-header">
+            <div class="game-title"></div>
+            <div class="game-coins">
+                <span class="game-coin-icon"></span>
+                <span class="game-money">{{user['coins']}}</span>
+            </div>
+            <div class="game-store">
+                <a class="game-store-enter" href="/store">进入商城</a>
+            </div>
+        </header>
+        <div class="game-frame">
+            <div class="game-content">
+                <div class="game-list">
+                    {% for game in games %}
+                    <div class="game-list-item" data-gameid="{{ game['_id'] }}">
+                        <img class="game-cover" src="/static/images/game/{{ game['photo'] }}">
+                        <span class="game-name">{{ game['name'] }}</span>
+                        <div class="game-list-mask">
+                            <a class="game-enter" href="{{ game['url'] }}?id={{game['_id']}}" target="_blank"></a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript" src="/static/js/game.js"></script>
+{% endblock %}

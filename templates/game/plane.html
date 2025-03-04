@@ -1,0 +1,691 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>飞机大战</title>
+</head>
+
+<body bgcolor="#33004f">
+<div id="stage"
+     style="margin: 0 auto; width: 480px; height: 650px; text-align: center; vertical-align: middle;display:none;">
+    <canvas id="canvas" style="border:0px solid red;" width="480" height="650">
+        不支持画板对象
+    </canvas>
+</div>
+<div class="data" style="display: none;">
+    <div class="power" data-power="{{record['power_level']}}"></div>
+    <div class="shoot" data-shoot="{{record['shoot_level']}}"></div>
+    <div class="life" data-life="{{record['life_level']}}"></div>
+</div>
+<script type="text/javascript" src="/static/js/jquery/jquery-1.8.3.min.js"></script>
+<script>
+    var canvas = document.getElementById('canvas');
+    var ctx = canvas.getContext('2d');
+
+    var background = new Image();
+    background.src = "/static/images/plane_war/background.png";
+
+    var e1 = [];
+    e1[0] = new Image();
+    e1[0].src = "/static/images/plane_war/enemy1.png";
+    e1[1] = new Image();
+    e1[1].src = "/static/images/plane_war/enemy1_down1.png";
+    e1[2] = new Image();
+    e1[2].src = "/static/images/plane_war/enemy1_down2.png";
+    e1[3] = new Image();
+    e1[3].src = "/static/images/plane_war/enemy1_down3.png";
+    e1[4] = new Image();
+    e1[4].src = "/static/images/plane_war/enemy1_down4.png";
+    e1[5] = new Image();
+    e1[5].src = "/static/images/plane_war/enemy1_down5.png";
+
+    var e2 = [];
+    e2[0] = new Image();
+    e2[0].src = "/static/images/plane_war/enemy2.png";
+    e2[1] = new Image();
+    e2[1].src = "/static/images/plane_war/enemy2_down1.png";
+    e2[2] = new Image();
+    e2[2].src = "/static/images/plane_war/enemy2_down2.png";
+    e2[3] = new Image();
+    e2[3].src = "/static/images/plane_war/enemy2_down3.png";
+    e2[4] = new Image();
+    e2[4].src = "/static/images/plane_war/enemy2_down4.png";
+    e2[5] = new Image();
+    e2[5].src = "/static/images/plane_war/enemy2_down5.png";
+
+    var e3 = [];
+    e3[0] = new Image();
+    e3[0].src = "/static/images/plane_war/enemy3.png";
+    e3[1] = new Image();
+    e3[1].src = "/static/images/plane_war/enemy3_1.png";
+    e3[2] = new Image();
+    e3[2].src = "/static/images/plane_war/enemy3_2.png";
+    e3[3] = new Image();
+    e3[3].src = "/static/images/plane_war/enemy3_down1.png";
+    e3[4] = new Image();
+    e3[4].src = "/static/images/plane_war/enemy3_down2.png";
+    e3[5] = new Image();
+    e3[5].src = "/static/images/plane_war/enemy3_down3.png";
+    e3[6] = new Image();
+    e3[6].src = "/static/images/plane_war/enemy3_down4.png";
+    e3[7] = new Image();
+    e3[7].src = "/static/images/plane_war/enemy3_down5.png";
+    e3[8] = new Image();
+    e3[8].src = "/static/images/plane_war/enemy3_down6.png";
+    e3[9] = new Image();
+    e3[9].src = "/static/images/plane_war/enemy3_down7.png";
+
+    var h = [];
+    h[0] = new Image();
+    h[0].src = "/static/images/plane_war/hero.png";
+    h[1] = new Image();
+    h[1].src = "/static/images/plane_war/hero1.png";
+    h[2] = new Image();
+    h[2].src = "/static/images/plane_war/hero2.png";
+    h[3] = new Image();
+    h[3].src = "/static/images/plane_war/hero_down1.png";
+    h[4] = new Image();
+    h[4].src = "/static/images/plane_war/hero_down2.png";
+    h[5] = new Image();
+    h[5].src = "/static/images/plane_war/hero_down3.png";
+    h[6] = new Image();
+    h[6].src = "/static/images/plane_war/hero_down4.png";
+
+    var b = [];
+    b[0] = new Image();
+    b[0].src = "/static/images/plane_war/bullet1.png";
+    b[1] = new Image();
+    b[1].src = "/static/images/plane_war/bullet2.png";
+
+    var missile = [];
+    missile[0] = new Image();
+    missile[0].src = "/static/images/plane_war/bullet3.png";
+    missile[1] = new Image();
+    missile[1].src = "/static/images/plane_war/bomb_01.png";
+    missile[2] = new Image();
+    missile[2].src = "/static/images/plane_war/bomb_02.png";
+    missile[3] = new Image();
+    missile[3].src = "/static/images/plane_war/bomb_03.png";
+    missile[4] = new Image();
+    missile[4].src = "/static/images/plane_war/bomb_04.png";
+    missile[5] = new Image();
+    missile[5].src = "/static/images/plane_war/bomb_05.png";
+    missile[6] = new Image();
+    missile[6].src = "/static/images/plane_war/bomb_06.png";
+    missile[7] = new Image();
+    missile[7].src = "/static/images/plane_war/bomb_07.png";
+    missile[8] = new Image();
+    missile[8].src = "/static/images/plane_war/bomb_08.png";
+
+    var multiple = [];
+    multiple[0] = new Image();
+    multiple[0].src = "/static/images/plane_war/blood_06.gif";
+
+    var defend = [];
+    defend[0] = new Image();
+    defend[0].src = "/static/images/plane_war/blood_02.gif";
+
+
+    var copyright = new Image();
+    copyright.src = "/static/images/plane_war/copyright.png";
+
+    var protect = new Image();
+    protect.src = "/static/images/plane_war/protect.png";
+
+    var pause = new Image();
+    pause.src = "/static/images/plane_war/game_pause_nor.png";
+
+    var record = {
+        'power_level' : +$('.power')[0].dataset.power,
+        'shoot_level' : +$('.shoot')[0].dataset.shoot,
+        'life_level' : +$('.life')[0].dataset.life
+    }
+
+    window.onload = function () {
+        var sky = new Sky();
+        var enemies = [];
+        var hero = new Hero(0, 0, 99, 124, 1, h, 3);
+        var bullets = [];
+        var buffs = [];
+        var bombs = [];
+        var score = 0;
+        var heros = record['life_level'];
+        const START = 1;
+        const RUNNING = 2;
+        const PAUSE = 3;
+        const GAME_OVER = 4;
+        var state = START;
+
+        document.getElementById('stage').style.display = "block";
+        setInterval(function () {
+            switch (state) {
+                case START :
+                    //开始状态
+                    sky.paint(ctx);
+                    sky.step();
+                    ctx.drawImage(copyright, 10, 100);
+                    break;
+                case RUNNING :
+                    //运行状态
+                    componentEnter();
+                    hero.shoot();
+                    componentStep();
+                    paintComponent(ctx);
+                    checkHit();
+                    deleteComponent();
+                    break;
+                case PAUSE :
+                    //暂停状态
+                    paintComponent(ctx);
+                    sky.step();
+                    ctx.drawImage(pause, 0, 0);
+                    break;
+                case GAME_OVER :
+                    //游戏结束
+                    sky.paint(ctx);
+                    sky.step();
+                    ctx.save();                 //
+                    ctx.font = "40px 微软雅黑";
+                    ctx.fillStyle = "white";
+                    ctx.shadowColor = "white";
+                    ctx.shadowBlur = 20;
+                    ctx.fillText("GAME OVER", 120, 340);
+                    ctx.restore();             //
+            }
+        }, 10);
+
+        canvas.onclick = function () {
+            if (state == START) {
+                state = RUNNING;
+            }
+        }
+        canvas.onmouseout = function () {
+            if (state == RUNNING) {
+                state = PAUSE;
+            }
+        }
+        canvas.onmouseover = function () {
+            if (state == PAUSE) {
+                state = RUNNING;
+            }
+        }
+
+
+        function isActionTime(lastTime, interval) {
+            if (lastTime == 0) {
+                return true;
+            }
+            var currentTime = new Date().getTime();
+            return currentTime - lastTime >= interval;
+        }
+
+        var lastTime = 0;
+        var interval = 400;
+
+        function componentEnter() {
+            if (!isActionTime(lastTime, interval)) {
+                return;
+            }
+            lastTime = new Date().getTime();
+            var n = parseInt(Math.random() * 10);
+            switch (n) {
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                case 6:
+                case 7:
+                    enemies[enemies.length] = new Enemy(0, -51, 57, 51, 1, 1, 1, e1, 1);
+                    break;
+                case 8:
+                    enemies[enemies.length] = new Enemy(0, -95, 69, 95, 2, 3, 5, e2, 1);
+                    break;
+                case 9:
+                    if (enemies[0] == undefined || enemies[0].type != 3) {
+                        enemies.splice(0, 0, new Enemy(0, -258, 169, 258, 3, 20, 20, e3, 3));
+                    }
+            }
+            var random = parseInt(Math.random() * 15) + 1;
+            //通过随机数，控制产生的概率是1/15
+            // if (random == 1) {
+            //     buffs[buffs.length] = new Buff(0, 0, 45, 45, 1, multiple, 1, 1);
+            // } else if (random == 2) {
+            //     buffs[buffs.length] = new Buff(0, 0, 45, 45, 1, defend, 1, 2);
+            // }
+        }
+
+        function componentStep() {
+            sky.step();
+            //背景移动
+            for (var i = 0; i < enemies.length; i++) {
+                enemies[i].step();
+            }
+            for (var i = 0; i < bullets.length; i++) {
+                bullets[i].step();
+            }
+            for (var i = 0; i < buffs.length; i++) {
+                buffs[i].step();
+            }
+            for (var i = 0; i < bombs.length; i++) {
+                bombs[i].step();
+            }
+            hero.step();
+        }
+
+        var paintLastTime = 0;
+        var paintInterval = 40;
+
+        function paintComponent(ctx) {
+            if (!isActionTime(paintLastTime, paintInterval)) {
+                return;
+            }
+            paintLastTime = new Date().getTime();
+            sky.paint(ctx);
+            for (var i = 0; i < enemies.length; i++) {
+                enemies[i].paint(ctx);
+            }
+            for (var i = 0; i < bullets.length; i++) {
+                bullets[i].paint(ctx);
+            }
+            for (var i = 0; i < buffs.length; i++) {
+                buffs[i].paint(ctx);
+            }
+            for (var i = 0; i < bombs.length; i++) {
+                bombs[i].paint(ctx);
+            }
+            hero.paint(ctx);
+            ctx.font = "20px 微软雅黑";
+            ctx.fillText("SCORE:" + score, 10, 20);
+            ctx.fillText("LIFE:" + heros, 400, 20);
+            for (var i = 0; i < hero.missiles; i++) {
+                ctx.drawImage(missile[0], i * 30, 600);
+            }
+        }
+
+        //天空
+        function Sky() {
+            this.img = background;
+            this.width = 480;
+            this.height = 852;
+            this.x1 = 0;
+            this.y1 = 0;
+            this.x2 = 0;
+            this.y2 = -this.height;
+            this.interval = 400;
+            this.lastTime = 0;
+            this.paint = function (ctx) {
+                ctx.drawImage(this.img, this.x1, this.y1);
+                ctx.drawImage(this.img, this.x2, this.y2);
+            }
+            this.step = function () {
+                if (!isActionTime(this.lastTime, this.interval)) {
+                    return;
+                }
+                this.lastTime = new Date().getTime();
+                this.y1 = this.y1 + 1;
+                this.y2 = this.y2 + 1;
+                if (this.y1 > this.height) {
+                    this.y1 = -this.height;
+                }
+                if (this.y2 > this.height) {
+                    this.y2 = -this.height;
+                }
+            }
+        }
+
+        function getPointOnCanvas(x, y) {
+            var bbox = canvas.getBoundingClientRect();
+            return {
+                x: x - bbox.left,
+                y: y - bbox.top
+            };
+        }
+
+
+        canvas.onmousemove = function (e) {
+            var mpoint = getPointOnCanvas(e.x, e.y);
+            hero.x = mpoint.x - hero.width / 2;
+            hero.y = mpoint.y - hero.height / 2;
+        }
+        //父类构造方法FlyingObject
+        function FlyingObject(x, y, width, height, life, frames, baseFrameCount) {
+            this.x = x;
+            this.y = y;
+            this.width = width;
+            this.height = height;
+            this.life = life;
+
+            this.frames = frames;
+            //所有的动画帧
+            this.img = frames[0];
+            //当前绘制的动画帧，默认是第一帧
+            this.frameIndex = 0;
+            //动画帧的序号
+            this.frameCount = baseFrameCount;
+            //基本动画帧数量
+
+            this.lastTime = 10;
+            this.interval = 0;
+            this.down = false;
+            this.canDelete = false;
+            this.paint = function () {
+                ctx.drawImage(this.img, this.x, this.y);
+            }
+            this.step = function () {
+                if (!isActionTime(this.lastTime, this.interval)) {
+                    return;
+                }
+                this.lastTime = new Date().getTime();
+
+                if (this.down) {
+                    if (this.frameIndex == frames.length) {
+                        //当销毁动画播放完毕 canDelete=true
+                        this.canDelete = true;
+                    } else {
+                        //开始播放销毁动画
+                        this.img = this.frames[this.frameIndex];
+                        this.frameIndex++;
+                    }
+                } else {
+                    this.move();
+                    this.img = this.frames[this.frameIndex % this.frameCount];
+                    this.frameIndex++;
+                }
+            }
+            this.move = function () {
+                this.y++;
+            }
+            this.hit = function (component) {
+                var c = component;
+                return c.x > this.x - c.width && c.x < this.x + this.width && c.y > this.y - c.height && c.y < this.y + this.height;
+            }
+            this.bang = function () {
+                this.life--;
+                if (this.life == 0) {
+                    this.down = true;
+                    this.frameIndex = this.frameCount;
+                    if (this.score) {
+                        score += this.score;
+                    }
+                }
+            }
+            this.outOfBounds = function () {
+                return this.y >= 852;
+            }
+        }
+
+        //Enemy
+        function Enemy(x, y, width, height, type, life, score, frames, baseFrameCount) {
+            FlyingObject.call(this, x, y, width, height, life, frames, baseFrameCount);
+            this.x = Math.random() * (480 - this.width);
+            this.y = -this.height;
+            this.type = type;
+            this.score = score;
+            this.paint = function () {
+                ctx.drawImage(this.img, this.x, this.y);
+                if (this.type == 3) {
+                    ctx.save();
+                    if (this.life > 10) {
+                        ctx.fillStyle = "green";
+                    } else if (this.life > 5) {
+                        ctx.fillStyle = "orange";
+                    } else {
+                        ctx.fillStyle = "red";
+                    }
+                    ctx.fillRect(this.x + 38, this.y + 250, this.life * 5, 5);
+                    ctx.restore();
+                }
+            }
+        }
+
+        //Bullet
+        function Bullet(x, y, width, height, life, frames, baseFrameCount, type) {
+            FlyingObject.call(this, x, y, width, height, life, frames, baseFrameCount);
+            this.type = type;
+            this.step = function () {
+                this.y -= 2;
+                switch (this.type) {
+                    case 1 :
+                        this.x -= 0;
+                        break;
+                    case 2 :
+                        this.x -= 0.25;
+                        break;
+                    case 3 :
+                        this.x += 0.25;
+                        break;
+                    case 4 :
+                        this.x -= 0.5;
+                        break;
+                    case 5 :
+                        this.x += 0.5;
+                        break;
+                    case 6 :
+                        this.x -= 0.75;
+                        break;
+                    case 7 :
+                        this.x += 0.75;
+                        break;
+                    case 8 :
+                        this.x -= 1;
+                        break;
+                    case 9 :
+                        this.x += 1;
+                        break;
+                    case 10 :
+                        this.x -= 1.25;
+                        break;
+                    case 11 :
+                        this.x += 1.25;
+                        break;
+                }
+                if (this.down) {
+                    this.canDelete = true;
+                }
+            }
+            this.outOfBounds = function () {
+                return this.y <= -this.height;
+            }
+        }
+
+        //Hero
+        function Hero(x, y, width, height, life, frames, baseFrameCount) {
+            FlyingObject.call(this, x, y, width, height, life, frames, baseFrameCount);
+            this.x = 480 / 2 - this.width / 2;
+            this.y = 650 - this.height - 30;
+            this.shootLastTime = 0;
+            this.shootInterval = 600 - 80 * (record['shoot_level'] - 1);
+            //多倍充能
+            this.multiPower = 0;
+            //多倍火力
+            this.multiFire = false;
+
+            //无敌充能
+            this.defendPower = 0;
+            //保护
+            this.defender = false;
+
+            //导弹数量
+            this.missiles = 3;
+
+            this.shoot = function () {
+                if (!isActionTime(this.shootLastTime, this.shootInterval)) {
+                    return;
+                }
+                this.shootLastTime = new Date().getTime();
+                var length = record['power_level'];
+                if(length % 2 == 0){
+                    length++;
+                }
+                for(var i = 0; i < length; i++){
+                    bullets[bullets.length] = new Bullet(this.x + 45, this.y, 9, 21, 1, b, 1, i);
+                }
+                this.multiPower--;
+                this.defendPower--;
+                if (this.multiPower <= 0) {
+                    this.multiPower = 0;
+                    this.multiFire = false;
+                }
+                if (this.defendPower <= 0) {
+                    this.defendPower = 0;
+                    this.defender = false;
+                }
+            }
+            this.move = function () {
+
+            }
+            this.paint = function (ctx) {
+                if (this.defender) {
+                    ctx.drawImage(protect, this.x - 30, this.y - 30);
+                }
+                ctx.drawImage(this.img, this.x, this.y);
+            }
+        }
+
+        //Buff的构造方法
+        function Buff(x, y, width, height, life, frames, baseFrameCount, type) {
+            FlyingObject.call(this, x, y, width, height, life, frames, baseFrameCount);
+            this.x = parseInt(Math.random() * (480 - this.width));
+            this.y = -this.height;
+            this.type = type;
+        }
+
+        //Bomb的构造方法
+        function Bomb(x, y, width, height, life, frames, baseFrameCount, initY) {
+            FlyingObject.call(this, x, y, width, height, life, frames, baseFrameCount);
+            this.initY = y;
+            this.move = function () {
+                this.y -= 2;
+            }
+            this.paint = function () {
+                if (!this.down) {
+                    ctx.drawImage(this.img, this.x, this.y);
+                } else {
+                    ctx.drawImage(this.img, this.x - 150, this.y - 150, 300, 300);
+                }
+            }
+        }
+
+        function checkHit() {
+            for (var i = 0; i < enemies.length; i++) {
+                var enemy = enemies[i];
+                if (enemy.down || enemy.canDelete) {
+                    continue;
+                }
+                if (enemy.hit(hero)) {
+                    enemy.bang();
+                    if (!hero.defender) {
+                        hero.bang();
+                    }
+                }
+                for (var j = 0; j < bullets.length; j++) {
+                    var bullet = bullets[j];
+                    if (bullet.down || bullet.canDelete) {
+                        continue;
+                    }
+                    if (enemy.hit(bullet)) {
+                        enemy.bang();
+                        bullet.bang();
+                    }
+                }
+            }
+            for (var i = 0; i < buffs.length; i++) {
+                if (buffs[i].down || buffs[i].canDelete) {
+                    continue;
+                }
+                if (buffs[i].hit(hero)) {
+                    if (buffs[i].type == 1) {
+                        //多倍火力
+                        hero.multiPower += 10;
+                        if (hero.multiPower > 0) {
+                            hero.multiFire = true;
+                        }
+                    } else if (buffs[i].type == 2) {
+                        //无敌
+                        hero.defendPower += 20;
+                        if (hero.defendPower > 0) {
+                            hero.defender = true;
+                        }
+                    }
+                    buffs[i].bang();
+                }
+            }
+            for (var i = 0; i < bombs.length; i++) {
+                if (bombs[i].initY - bombs[i].y > 200) {
+                    bombs[i].bang();
+                    for (var i = 0; i < enemies.length; i++) {
+                        enemies[i].bang();
+                    }
+                }
+            }
+
+        }
+
+        function deleteComponent() {
+            var ary = [];
+            var idx = 0;
+            for (var i = 0; i < enemies.length; i++) {
+                if (!(enemies[i].canDelete || enemies[i].outOfBounds())) {
+                    ary[idx] = enemies[i];
+                    idx++;
+                }
+            }
+            enemies = ary;
+            var ary = [];
+            var idx = 0;
+            for (var i = 0; i < bullets.length; i++) {
+                if (!(bullets[i].canDelete || bullets[i].outOfBounds())) {
+                    ary[idx] = bullets[i];
+                    idx++;
+                }
+            }
+            bullets = ary;
+            if (hero.canDelete) {
+                heros--;
+                if (heros == 0) {
+                    state = GAME_OVER;
+                } else {
+                    hero = new Hero(0, 0, 99, 124, 1, h, 3);
+                }
+            }
+            var ary = [];
+            var idx = 0;
+            for (var i = 0; i < buffs.length; i++) {
+                if (!(buffs[i].canDelete || buffs[i].outOfBounds())) {
+                    //不消失的buff
+                    ary[idx] = buffs[i];
+                    idx++;
+                }
+            }
+            buffs = ary;
+            var ary = [];
+            var idx = 0;
+            for (var i = 0; i < bombs.length; i++) {
+                if (!(bombs[i].canDelete || bombs[i].outOfBounds())) {
+                    ary[idx] = bombs[i];
+                    idx++;
+                }
+            }
+            bombs = ary;
+        }
+
+        document.onkeydown = function (e) {
+            //空格键：32
+            if (e.keyCode == 32) {
+                if (state == RUNNING) {
+                    if (hero.missiles > 0) {
+                        bombs[bombs.length] = new Bomb(hero.x + hero.width / 2 - 10, hero.y, 20, 52, 1, missile, 1);
+                    }
+                    hero.missiles--;
+                }
+            }
+        }
+    }
+
+
+</script>
+</body>
+</html>
+

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>500</title>
+    <link rel="stylesheet" href="../../static/css/500.css">
+</head>
+<body>
+	<div class="container">
+		<div class="error">
+			<div class="error__face"></div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		var faces = [
+			'ಥ_ಥ',
+			'(>_<)',
+			'ಠ_ಠ',
+		];
+
+		document.getElementsByClassName('error__face')[0].innerHTML = faces[Math.floor((Math.random() * faces.length) + 0)];
+	</script>
+</body>
+</html>

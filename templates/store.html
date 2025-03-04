@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" type="text/css" href="/static/css/store.css">
+{% endblock %}
+
+{% block main_content %}
+    <div class="store-back"></div>
+    <div class="shop-container" style="display:none;">
+        <header class="shop-header">
+            <div class="shop-title"></div>
+        </header>
+        <div class="shop-content">
+            <div class="shop-list">
+                {% for prop in props %}
+                <div class="shop-list-item">
+                    <div class="shop-prop-img">
+                        <img src="/static/images/store/{{ prop['icon'] }}" title="{{ prop['desc'] }}">
+                    </div>
+                    <div class="shop-prop-name">
+                        <div class="shop-prop-text"><p>{{ prop['name'] }}</p></div>
+                        <div>
+                            <span class="shop-prop-money">{{ prop['price'] }}</span>
+                            <span class="shop-prop-buy" data-propid="{{ prop['_id'] }}"></span>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="shop-mask">
+        <div class="shop-box">
+            <div class="shop-board"></div>
+{#            <div class="shop-entergame"></div>#}
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript" src="/static/js/ajax/store_ajax.js"></script>
+    <script type="text/javascript" src="/static/js/store.js"></script>
+{% endblock %}

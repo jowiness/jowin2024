@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test02</title>
+    <link rel="stylesheet" href="../static/css/76/cs2.css">
+    <script type="text/javascript" src="/static/js/jquery/jquery.min.js"></script>
+</head>
+<script>
+        function check(){
+            inputs = $("[type='file']");
+            var fileName=inputs[0].value;
+            var suffixIndex=fileName.lastIndexOf(".");
+            var suffix=fileName.substring(suffixIndex+1).toUpperCase();
+            if(inputs.length == 0){
+                alert('请添加 type是file 的input元素');
+                return false;
+            }
+            if(inputs[0].name != 'myfile'){
+                alert('请添加type是file的input元素的name属性值设置为 myfile');
+                return false;
+            }
+            if (inputs[0].value == null || inputs[0].value == ''){
+                alert('请选择文件后再提交！');
+                return false;
+            }
+            if (suffix!="BMP"&&suffix!="JPG"&&suffix!="JPEG"&&suffix!="PNG"&&suffix!="GIF"){
+                alert('请上传图片类型的文件！');
+                return false;
+            }
+        }
+    </script>
+<body>
+
+<form onsubmit="return check()" action='/test02' method='post' enctype='multipart/form-data'>
+    <input type='file' name='myfile'>
+    <input type='submit'>
+    <div class='msg'>{{ msg|safe }}</div>
+</form>
+
+</body>
+</html>

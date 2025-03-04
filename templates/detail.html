@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" type="text/css" href="/static/css/index.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/info.css">
+{% endblock %}
+
+{% block header %}
+    <header class="am-topbar kid-topbar">
+        <img class="kid-logo" src="/static/images/logo.png">
+        <div class="kid-bar">
+            <ul class="kid-checklist">
+                <li class="kid-list kid-list-blog"></li>
+                <li class='kid-list kid-list-quiz'></li>
+                <li class="kid-list kid-list-game"></li>
+            </ul>
+        </div>
+    </header>
+{% endblock %}
+
+{% block main_content %}
+    <div class="kid-container" style="display:none;">
+        <div class="kid-info-main">
+            <div class="kid-info-blogcontent">
+                <div class="kid-info-title" data-blog-id="{{blog['_id']}}">
+                    <div class="kid-info-head" style="background-image:url(/static/images/photo/{{blog['author']['head']}});"></div>
+                    <div class="kid-info-name">{{blog['author']['username']}}</div>
+                </div>
+                <div class="kid-info-imgs">
+                    <div class="info-imgslist imgs-pre"></div>
+                    <div class="info-imgslist imgs-list">
+                        <ul>
+                            {% for img in blog['photos'] %}
+                            <li><div><img src="/static/images/photo/{{img}}" alt=""/></div></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="info-imgslist imgs-next"></div>
+                </div>
+                <div class="kid-info-comment">
+                    <div class="kid-info-word"><p>{{blog['content']}}</p></div>
+                    <div class="kid-info-opr">
+                        <div>
+                            <div class="kid-info-like">
+                                {% if blog['is_liked'] %}
+                                <img src="/static/images/like.png" onclick="like_cancle(this)">
+                                {% else %}
+                                <img src="/static/images/like-no.png" onclick="like_on(this)">
+                                {% endif %}
+                                <span>
+                                    {% if blog['likes'] %}
+                                        {{blog['likes']}}
+                                    {% else %}
+                                        0
+                                    {% endif %}
+                                </span>
+                            </div>
+                            <div class="kid-info-message">
+                                <img src="/static/images/message.png">
+                                <span>
+                                    {% if blog['comments'] %}
+                                        {{ blog['comments'] }}
+                                    {% else %}
+                                        0
+                                    {% endif %}
+                                </span>
+                            </div>
+                            <div style="clear:both;"></div>
+                        </div>
+                        <div class="kid-info-textarea">
+                            <textarea></textarea>
+                            <div class="kid-info-pubbtn" onclick="comment_pub()">发表</div>
+                        </div>
+                        <div style="clear: both;"></div>
+                    </div>
+                    <div class="kid-info-comlist">
+                        {% for comment in blog['com_list'] %}
+                        <div class="kid-comlist-item">
+                            <div class="com-photo" style="background-image:url(/static/images/{{ comment['author']['head'] }})"></div>
+                            <div class="com-username">{{ comment['author']['username'] }}</div>
+                            <div class="com-time">{{ comment['create_time'] }}</div>
+                            <div class="com-content">{{ comment['content'] }}</div>
+                            <div style="clear: both;"></div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript" src="/static/js/info.js"></script>
+    <script type="text/javascript" src="/static/js/ajax/detail_ajax.js"></script>
+{% endblock %}
